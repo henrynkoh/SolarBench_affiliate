@@ -1,0 +1,287 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 2 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidDateKey(key) {
+      return key is string && key.size() == 10 && key.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && isEmailVerified() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.email == 'henrynkoh@gmail.com'
+      );
+    }
+
+    function isValidDailyVideo(data) {
+      return data.keys().hasAll([
+          'dateKey', 'productId', 'productName', 'brand', 'sku',
+          'campaignHeadline', 'status', 'visibility', 'windowStartIso',
+          'windowEndIso', 'videoUrl', 'posterUrl', 'narratorVoice',
+          'durationSec', 'bestPlatform', 'lowestLandedPrice', 'msrp',
+          'dailyUnitsSoldEstimate', 'scriptSummary', 'ownerId',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'dateKey', 'productId', 'productName', 'brand', 'sku',
+          'campaignHeadline', 'status', 'visibility', 'windowStartIso',
+          'windowEndIso', 'videoUrl', 'posterUrl', 'narratorVoice',
+          'durationSec', 'bestPlatform', 'lowestLandedPrice', 'msrp',
+          'dailyUnitsSoldEstimate', 'scriptSummary', 'ownerId',
+          'createdAt', 'updatedAt', 'archivedAt'
+        ])
+        && isValidDateKey(data.dateKey)
+        && data.productId is string && data.productId.size() >= 2 && data.productId.size() <= 80
+        && data.productName is string && data.productName.size() >= 2 && data.productName.size() <= 160
+        && data.brand is string && data.brand.size() >= 1 && data.brand.size() <= 60
+        && data.sku is string && data.sku.size() >= 1 && data.sku.size() <= 60
+        && data.campaignHeadline is string && data.campaignHeadline.size() >= 5 && data.campaignHeadline.size() <= 200
+        && data.status in ['playing_today', 'archived']
+        && data.visibility == 'public'
+        && data.windowStartIso is string && data.windowStartIso.size() >= 10 && data.windowStartIso.size() <= 40
+        && data.windowEndIso is string && data.windowEndIso.size() >= 10 && data.windowEndIso.size() <= 40
+        && data.videoUrl is string && data.videoUrl.size() >= 5 && data.videoUrl.size() <= 260
+        && data.posterUrl is string && data.posterUrl.size() >= 5 && data.posterUrl.size() <= 260
+        && data.narratorVoice is string && data.narratorVoice.size() >= 2 && data.narratorVoice.size() <= 60
+        && data.durationSec is number && data.durationSec > 0 && data.durationSec <= 3600
+        && data.bestPlatform is string && data.bestPlatform.size() >= 2 && data.bestPlatform.size() <= 60
+        && data.lowestLandedPrice is number && data.lowestLandedPrice >= 0
+        && data.msrp is number && data.msrp >= 0
+        && data.dailyUnitsSoldEstimate is string && data.dailyUnitsSoldEstimate.size() >= 2 && data.dailyUnitsSoldEstimate.size() <= 160
+        && data.scriptSummary is string && data.scriptSummary.size() >= 5 && data.scriptSummary.size() <= 1200
+        && isValidId(data.ownerId)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp
+        && (!('archivedAt' in data) || data.archivedAt is timestamp);
+    }
+
+    function isValidVideoAnalysis(data) {
+      return data.keys().hasAll([
+          'noteId', 'videoDateKey', 'productName', 'metricFocus',
+          'noteText', 'ownerId', 'createdAt'
+        ])
+        && data.keys().hasOnly([
+          'noteId', 'videoDateKey', 'productName', 'metricFocus',
+          'noteText', 'ownerId', 'createdAt'
+        ])
+        && isValidId(data.noteId)
+        && isValidDateKey(data.videoDateKey)
+        && data.productName is string && data.productName.size() >= 2 && data.productName.size() <= 160
+        && data.metricFocus in ['Price Velocity', 'Voice Retention', 'Margin Spread', 'Seasonal Demand']
+        && data.noteText is string && data.noteText.size() >= 3 && data.noteText.size() <= 800
+        && isValidId(data.ownerId)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidPriceAlert(data) {
+      return data.keys().hasAll([
+          'alertId', 'productId', 'productName', 'brand',
+          'targetPrice', 'lowestLandedAtCreation', 'ownerId', 'createdAt'
+        ])
+        && data.keys().hasOnly([
+          'alertId', 'productId', 'productName', 'brand',
+          'targetPrice', 'lowestLandedAtCreation', 'ownerId', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.alertId)
+        && data.productId is string && data.productId.size() >= 2 && data.productId.size() <= 80
+        && data.productName is string && data.productName.size() >= 2 && data.productName.size() <= 160
+        && data.brand is string && data.brand.size() >= 1 && data.brand.size() <= 60
+        && data.targetPrice is number && data.targetPrice > 0 && data.targetPrice <= 100000
+        && data.lowestLandedAtCreation is number && data.lowestLandedAtCreation >= 0
+        && isValidId(data.ownerId)
+        && data.createdAt is timestamp
+        && (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    function isValidSavedBuild(data) {
+      return data.keys().hasAll([
+          'buildId', 'buildName', 'totalCost', 'totalStorageWh',
+          'totalSolarWatts', 'items', 'ownerId', 'createdAt'
+        ])
+        && data.keys().hasOnly([
+          'buildId', 'buildName', 'totalCost', 'totalStorageWh',
+          'totalSolarWatts', 'items', 'ownerId', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.buildId)
+        && data.buildName is string && data.buildName.size() >= 2 && data.buildName.size() <= 120
+        && data.totalCost is number && data.totalCost >= 0
+        && data.totalStorageWh is number && data.totalStorageWh >= 0
+        && data.totalSolarWatts is number && data.totalSolarWatts >= 0
+        && data.items is list && data.items.size() > 0 && data.items.size() <= 30 && data.items[0] is map
+        && isValidId(data.ownerId)
+        && data.createdAt is timestamp
+        && (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // Non-PII connection check document
+    match /test/connection {
+      allow get: if true;
+      allow list, write: if false;
+    }
+
+    // Admin lookup collection (read own record only; managed out-of-band)
+    match /admins/{userId} {
+      allow get: if isSignedIn() && isValidId(userId) && request.auth.uid == userId;
+      allow list, write: if false;
+    }
+
+    // Public non-PII archive of daily midnight-to-midnight spotlight videos
+    match /dailyVideos/{dateKey} {
+      allow get: if isValidDateKey(dateKey) && resource.data.visibility == 'public';
+      allow list: if resource.data.visibility == 'public';
+
+      allow create: if isSignedIn()
+        && isEmailVerified()
+        && isValidDateKey(dateKey)
+        && isValidDailyVideo(incoming())
+        && incoming().dateKey == dateKey
+        && incoming().ownerId == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && isAdmin();
+
+      allow update: if isSignedIn()
+        && isEmailVerified()
+        && isValidDateKey(dateKey)
+        && isValidDailyVideo(incoming())
+        && incoming().dateKey == existing().dateKey
+        && incoming().createdAt == existing().createdAt
+        && incoming().ownerId == existing().ownerId
+        && incoming().updatedAt == request.time
+        && isAdmin()
+        && (
+          (
+            existing().status == 'playing_today'
+            && incoming().status == 'archived'
+            && 'archivedAt' in incoming()
+            && incoming().archivedAt == request.time
+            && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'archivedAt', 'updatedAt'])
+          )
+          ||
+          (
+            existing().status != 'archived'
+            && incoming().diff(existing()).affectedKeys().hasOnly([
+              'status', 'archivedAt', 'updatedAt', 'campaignHeadline',
+              'videoUrl', 'scriptSummary', 'lowestLandedPrice', 'durationSec'
+            ])
+          )
+        );
+
+      allow delete: if isSignedIn()
+        && isEmailVerified()
+        && isValidDateKey(dateKey)
+        && isAdmin();
+    }
+
+    // Private user analysis annotations linked to archived daily videos
+    match /videoAnalyses/{noteId} {
+      allow get: if isSignedIn() && isValidId(noteId) && (resource.data.ownerId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn()
+        && isEmailVerified()
+        && isValidId(noteId)
+        && isValidVideoAnalysis(incoming())
+        && incoming().noteId == noteId
+        && incoming().ownerId == request.auth.uid
+        && incoming().createdAt == request.time
+        && exists(/databases/$(database)/documents/dailyVideos/$(incoming().videoDateKey));
+
+      allow update: if false;
+
+      allow delete: if isSignedIn()
+        && isValidId(noteId)
+        && (existing().ownerId == request.auth.uid || isAdmin());
+    }
+
+    // Private user target price-drop alerts
+    match /priceAlerts/{alertId} {
+      allow get: if isSignedIn() && isValidId(alertId) && (resource.data.ownerId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn()
+        && isEmailVerified()
+        && isValidId(alertId)
+        && isValidPriceAlert(incoming())
+        && incoming().alertId == alertId
+        && incoming().ownerId == request.auth.uid
+        && incoming().createdAt == request.time
+        && (!('updatedAt' in incoming()) || incoming().updatedAt == request.time);
+
+      allow update: if isSignedIn()
+        && isEmailVerified()
+        && isValidId(alertId)
+        && isValidPriceAlert(incoming())
+        && (existing().ownerId == request.auth.uid || isAdmin())
+        && incoming().alertId == existing().alertId
+        && incoming().productId == existing().productId
+        && incoming().ownerId == existing().ownerId
+        && incoming().createdAt == existing().createdAt
+        && 'updatedAt' in incoming()
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['targetPrice', 'updatedAt']);
+
+      allow delete: if isSignedIn()
+        && isValidId(alertId)
+        && (existing().ownerId == request.auth.uid || isAdmin());
+    }
+
+    // Private user saved DIY solar system builds
+    match /savedBuilds/{buildId} {
+      allow get: if isSignedIn() && isValidId(buildId) && (resource.data.ownerId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn()
+        && isEmailVerified()
+        && isValidId(buildId)
+        && isValidSavedBuild(incoming())
+        && incoming().buildId == buildId
+        && incoming().ownerId == request.auth.uid
+        && incoming().createdAt == request.time
+        && (!('updatedAt' in incoming()) || incoming().updatedAt == request.time);
+
+      allow update: if isSignedIn()
+        && isEmailVerified()
+        && isValidId(buildId)
+        && isValidSavedBuild(incoming())
+        && (existing().ownerId == request.auth.uid || isAdmin())
+        && incoming().buildId == existing().buildId
+        && incoming().ownerId == existing().ownerId
+        && incoming().createdAt == existing().createdAt
+        && 'updatedAt' in incoming()
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'buildName', 'items', 'totalCost', 'totalStorageWh', 'totalSolarWatts', 'updatedAt'
+        ]);
+
+      allow delete: if isSignedIn()
+        && isValidId(buildId)
+        && (existing().ownerId == request.auth.uid || isAdmin());
+    }
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "entities": {
+    "DailyVideoRecord": {
+      "title": "Daily Video Record",
+      "description": "Metadata and playback details for a 24-hour midnight-to-midnight daily solar spotlight video accumulated for historical analysis.",
+      "type": "object",
+      "properties": {
+        "dateKey": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "minLength": 10,
+          "maxLength": 10,
+          "description": "Calendar date key (YYYY-MM-DD) when this spotlight video ran for 24 hours starting at 00:00:00."
+        },
+        "productId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "Catalog ID of the #1 top-selling solar product featured for the day."
+        },
+        "productName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 160,
+          "description": "Full product model name."
+        },
+        "brand": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "description": "Manufacturer brand name."
+        },
+        "sku": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "description": "Product SKU identifier."
+        },
+        "campaignHeadline": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200,
+          "description": "YouTube-style faceless spotlight headline."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["playing_today", "archived"],
+          "description": "Whether the video is actively playing in today's 24-hour midnight window or archived after midnight rollover."
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public"],
+          "description": "Public visibility flag for non-PII daily catalog videos."
+        },
+        "windowStartIso": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 40,
+          "description": "ISO timestamp marking 00:00:00 start of the 24-hour playback day."
+        },
+        "windowEndIso": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 40,
+          "description": "ISO timestamp marking 23:59:59 / midnight archive rollover."
+        },
+        "videoUrl": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 260,
+          "description": "Relative URL to the rendered 1280x720 MP4 video with solo male narration."
+        },
+        "posterUrl": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 260,
+          "description": "Relative URL to the hardware poster image."
+        },
+        "narratorVoice": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "Solo male voice profile identifier."
+        },
+        "durationSec": {
+          "type": "number",
+          "description": "Rendered MP4 duration in seconds."
+        },
+        "bestPlatform": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "Winning distribution platform with lowest landed price for that day."
+        },
+        "lowestLandedPrice": {
+          "type": "number",
+          "description": "Lowest verified landed USD price on that day."
+        },
+        "msrp": {
+          "type": "number",
+          "description": "Manufacturer suggested retail price in USD."
+        },
+        "dailyUnitsSoldEstimate": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 160,
+          "description": "Cross-platform 24-hour sales velocity signal."
+        },
+        "scriptSummary": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1200,
+          "description": "Opening voiceover script spoken by the solo male narrator."
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 128,
+          "description": "UID of the signed-in curator or system operator."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the daily video record was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the daily video record was last updated."
+        },
+        "archivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the video moved to permanent archive."
+        }
+      },
+      "required": [
+        "dateKey",
+        "productId",
+        "productName",
+        "brand",
+        "sku",
+        "campaignHeadline",
+        "status",
+        "visibility",
+        "windowStartIso",
+        "windowEndIso",
+        "videoUrl",
+        "posterUrl",
+        "narratorVoice",
+        "durationSec",
+        "bestPlatform",
+        "lowestLandedPrice",
+        "msrp",
+        "dailyUnitsSoldEstimate",
+        "scriptSummary",
+        "ownerId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "VideoAnalysisNote": {
+      "title": "Video Analysis Note",
+      "description": "User analysis note attached to an archived daily spotlight video for historical performance comparison.",
+      "type": "object",
+      "properties": {
+        "noteId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "minLength": 2,
+          "maxLength": 128
+        },
+        "videoDateKey": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "minLength": 10,
+          "maxLength": 10
+        },
+        "productName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 160
+        },
+        "metricFocus": {
+          "type": "string",
+          "enum": ["Price Velocity", "Voice Retention", "Margin Spread", "Seasonal Demand"]
+        },
+        "noteText": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 800
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "noteId",
+        "videoDateKey",
+        "productName",
+        "metricFocus",
+        "noteText",
+        "ownerId",
+        "createdAt"
+      ]
+    },
+    "PriceAlert": {
+      "title": "Price Drop Alert",
+      "description": "User-defined target landed price alert for a solar hardware SKU stored in Firestore.",
+      "type": "object",
+      "properties": {
+        "alertId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "minLength": 2,
+          "maxLength": 128
+        },
+        "productId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "productName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 160
+        },
+        "brand": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "targetPrice": {
+          "type": "number"
+        },
+        "lowestLandedAtCreation": {
+          "type": "number"
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "alertId",
+        "productId",
+        "productName",
+        "brand",
+        "targetPrice",
+        "lowestLandedAtCreation",
+        "ownerId",
+        "createdAt"
+      ]
+    },
+    "SavedSolarBuild": {
+      "title": "Saved Solar Build",
+      "description": "Saved multi-merchant solar bill of materials configuration stored per user for reload and comparison.",
+      "type": "object",
+      "properties": {
+        "buildId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "minLength": 2,
+          "maxLength": 128
+        },
+        "buildName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "totalCost": {
+          "type": "number"
+        },
+        "totalStorageWh": {
+          "type": "number"
+        },
+        "totalSolarWatts": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "description": "Native array of line items (productId, quantity, selectedMerchantId) capped at 30 items."
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "buildId",
+        "buildName",
+        "totalCost",
+        "totalStorageWh",
+        "totalSolarWatts",
+        "items",
+        "ownerId",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/dailyVideos/{dateKey}": {
+      "schema": { "$ref": "#/entities/DailyVideoRecord" },
+      "description": "Accumulating daily midnight-to-midnight spotlight videos stored chronologically for replay and analysis."
+    },
+    "/videoAnalyses/{noteId}": {
+      "schema": { "$ref": "#/entities/VideoAnalysisNote" },
+      "description": "Private user analysis annotations linked to archived daily spotlight videos."
+    },
+    "/priceAlerts/{alertId}": {
+      "schema": { "$ref": "#/entities/PriceAlert" },
+      "description": "User target landed price drop alerts."
+    },
+    "/savedBuilds/{buildId}": {
+      "schema": { "$ref": "#/entities/SavedSolarBuild" },
+      "description": "User saved DIY solar system bills of materials."
+    }
+  }
+}

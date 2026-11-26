@@ -1,0 +1,206 @@
+{
+  "autopilotEnabled": true,
+  "intervalMinutes": 15,
+  "lastRunAtIso": "2026-11-19T07:51:37.759Z",
+  "nextScheduledRunIso": "2026-11-19T08:06:37.759Z",
+  "totalCyclesCompleted": 3,
+  "overallHealthScore": 100,
+  "catalogSkuCount": 30,
+  "videoArchiveCount": 6,
+  "healthyVideoCount": 6,
+  "growthBriefsCount": 1,
+  "summaryText": "Aria completed Cycle #3 (ceo-manual): 100% fleet health across 30 SKUs & 6/6 verified MP4s.",
+  "checks": [
+    {
+      "agentNumber": 1,
+      "agentId": "chief-of-staff",
+      "agentName": "Aria",
+      "roleLabel": "Chief of Staff",
+      "status": "pass",
+      "metricValue": "100% Health",
+      "detail": "Coordinated 14 specialists in 587ms · 14 passed, 0 auto-healed, 0 alerts.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 2,
+      "agentId": "arbitrage-scout",
+      "agentName": "Vector",
+      "roleLabel": "Store Matrix",
+      "status": "pass",
+      "metricValue": "30 SKUs × 10+ Stores",
+      "detail": "Verified 30 unique catalog IDs and multi-merchant landed pricing formula.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 3,
+      "agentId": "advisor-analyst",
+      "agentName": "Atlas",
+      "roleLabel": "Top 3 Purpose Hub",
+      "status": "pass",
+      "metricValue": "6 Use Cases",
+      "detail": "Off-Grid, Whole-Home, Van/RV, Portable, Array, and Local AI LLM filters verified.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 4,
+      "agentId": "teardown-auditor",
+      "agentName": "Micron",
+      "roleLabel": "Spec Matrix",
+      "status": "pass",
+      "metricValue": "30/30 Unique",
+      "detail": "Confirmed zero duplicate SKUs or product slugs across side-by-side matrix presets.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 5,
+      "agentId": "thermal-safety",
+      "agentName": "Kelvin",
+      "roleLabel": "Thermal & IP Safety",
+      "status": "pass",
+      "metricValue": "Derating Guard ON",
+      "detail": "Verified low-temp cutoff flags & IP20 vs IP65 enclosure warnings across battery SKUs.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 6,
+      "agentId": "runtime-engineer",
+      "agentName": "Ampere",
+      "roleLabel": "Load & NEC BOS",
+      "status": "pass",
+      "metricValue": "NEC BOS Validated",
+      "detail": "Checked 48V Voc cold-weather headroom equations and starter-kit SKU linkage.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 7,
+      "agentId": "roi-economist",
+      "agentName": "Ledger",
+      "roleLabel": "Sec. 25D & ROI",
+      "status": "pass",
+      "metricValue": "30% Credit Synced",
+      "detail": "Validated >=3,000 Wh Sec. 25D threshold and 10-year grid-parity payoff math.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 8,
+      "agentId": "permit-guardian",
+      "agentName": "Shield",
+      "roleLabel": "UL Permits & OEM",
+      "status": "pass",
+      "metricValue": "25 UL Certified SKUs",
+      "detail": "Audited UL 1973 / 9540 / 1741 certifications & authorized dealer OEM coverage.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 9,
+      "agentId": "bom-allocator",
+      "agentName": "Forge",
+      "roleLabel": "Split-Cart BOM",
+      "status": "pass",
+      "metricValue": "4 Kits Ready",
+      "detail": "All starter kit items resolve directly to live catalog offers and LTL freight rules.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 10,
+      "agentId": "spotlight-producer",
+      "agentName": "Beacon",
+      "roleLabel": "24h Video & Feed",
+      "status": "pass",
+      "metricValue": "6/6 MP4 Healthy",
+      "detail": "Playing Today: 2026-11-19 (EG4-LLS-48100).",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 11,
+      "agentId": "catalog-crawler",
+      "agentName": "Harvest",
+      "roleLabel": "90d Price Freshness",
+      "status": "pass",
+      "metricValue": "30/30 Histories",
+      "detail": "All catalog entries include 90-day trajectory arrays and active coupon checks.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 12,
+      "agentId": "seo-publisher",
+      "agentName": "Scribe",
+      "roleLabel": "Sitemap & Schema",
+      "status": "pass",
+      "metricValue": "1 Briefs Stored",
+      "detail": "Sitemap.xml (35 routes), JSON-LD Product/FAQ schema, and canonical tags verified.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 13,
+      "agentId": "social-courier",
+      "agentName": "Courier",
+      "roleLabel": "X / FB / KakaoFeed",
+      "status": "pass",
+      "metricValue": "Auto-Push Armed",
+      "detail": "Social mockup feed listener synced with Daily #1 Best-Seller state updates.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 14,
+      "agentId": "policy-tracker",
+      "agentName": "Pulse",
+      "roleLabel": "State Tariff Hooks",
+      "status": "pass",
+      "metricValue": "5 State Presets",
+      "detail": "CA ($0.42), HI ($0.44), MA ($0.33), NY ($0.27), TX ($0.16) presets calibrated.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    },
+    {
+      "agentNumber": 15,
+      "agentId": "partner-steward",
+      "agentName": "Steward",
+      "roleLabel": "Click Telemetry",
+      "status": "pass",
+      "metricValue": "0 Tracked Clicks",
+      "detail": "Cloud SQL outbound affiliate telemetry & growth repository responsive.",
+      "checkedAtIso": "2026-11-19T07:51:37.759Z"
+    }
+  ],
+  "history": [
+    {
+      "cycleId": "cycle-1795074697172",
+      "triggeredBy": "ceo-manual",
+      "startedAtIso": "2026-11-19T07:51:37.172Z",
+      "completedAtIso": "2026-11-19T07:51:37.759Z",
+      "durationMs": 587,
+      "healthScore": 100,
+      "passedCount": 14,
+      "healedCount": 0,
+      "warnCount": 0,
+      "briefPublished": false,
+      "summary": "Aria completed Cycle #3 (ceo-manual): 100% fleet health across 30 SKUs & 6/6 verified MP4s."
+    },
+    {
+      "cycleId": "cycle-1795074692728",
+      "triggeredBy": "startup",
+      "startedAtIso": "2026-11-19T07:51:32.728Z",
+      "completedAtIso": "2026-11-19T07:51:33.396Z",
+      "durationMs": 668,
+      "healthScore": 100,
+      "passedCount": 14,
+      "healedCount": 0,
+      "warnCount": 0,
+      "briefPublished": false,
+      "summary": "Aria completed Cycle #2 (startup): 100% fleet health across 30 SKUs & 6/6 verified MP4s."
+    },
+    {
+      "cycleId": "cycle-1795074661208",
+      "triggeredBy": "ceo-manual",
+      "startedAtIso": "2026-11-19T07:51:01.208Z",
+      "completedAtIso": "2026-11-19T07:51:05.597Z",
+      "durationMs": 4389,
+      "healthScore": 100,
+      "passedCount": 13,
+      "healedCount": 2,
+      "warnCount": 0,
+      "briefPublished": true,
+      "summary": "Aria completed Cycle #1 (ceo-manual): 100% fleet health across 30 SKUs & 6/6 verified MP4s. Published new daily SEO brief."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "SolarBench — Solar Power Price & Spec Comparison",
+  "description": "Independent price comparison and technical specification benchmark for solar panels, LiFePO4 batteries, hybrid inverters, MPPT charge controllers, and portable power stations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
